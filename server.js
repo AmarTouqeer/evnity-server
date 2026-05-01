@@ -17,7 +17,7 @@ dotenv.config();
 // Warn if email credentials are missing
 if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
   console.warn(
-    "⚠️  EMAIL_USER or EMAIL_PASSWORD is not set. Nodemailer may fail with 'Missing credentials for PLAIN'."
+    "EMAIL_USER or EMAIL_PASSWORD is not set. Nodemailer may fail with 'Missing credentials for PLAIN'."
   );
 }
 
@@ -28,7 +28,7 @@ connectDB();
 const app = express();
 
 // ==============================
-// 💳 Stripe Webhook (must be BEFORE express.json)
+//  Stripe Webhook (must be BEFORE express.json)
 // ==============================
 // Stripe requires the raw request body to verify signatures.
 app.post(
@@ -134,28 +134,28 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
   console.log("\n" + "=".repeat(50));
-  console.log("🚀 Evnity Backend Server Started!");
+  console.log(" Evnity Backend Server Started!");
   console.log("=".repeat(50));
   console.log(
-    `📡 Server running in ${process.env.NODE_ENV || "development"} mode`
+    ` Server running in ${process.env.NODE_ENV || "development"} mode`
   );
-  console.log(`🌐 Port: ${PORT}`);
-  console.log(`🔗 URL: http://localhost:${PORT}`);
-  console.log(`🏥 Health: http://localhost:${PORT}/health`);
-  console.log(`🔐 Auth API: http://localhost:${PORT}/api/auth`);
+  console.log(` Port: ${PORT}`);
+  console.log(` URL: http://localhost:${PORT}`);
+  console.log(` Health: http://localhost:${PORT}/health`);
+  console.log(` Auth API: http://localhost:${PORT}/api/auth`);
   console.log("=".repeat(50) + "\n");
 });
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err) => {
-  console.error(`❌ Unhandled Rejection: ${err.message}`);
+  console.error(`Unhandled Rejection: ${err.message}`);
   // Close server & exit process
   server.close(() => process.exit(1));
 });
 
 // Handle uncaught exceptions
 process.on("uncaughtException", (err) => {
-  console.error(`❌ Uncaught Exception: ${err.message}`);
+  console.error(` Uncaught Exception: ${err.message}`);
   process.exit(1);
 });
 
