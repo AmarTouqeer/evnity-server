@@ -112,7 +112,7 @@ exports.createBooking = async (req, res, next) => {
 
     let providerId, entity, totalAmount, deposit;
 
-   if (bookingType === "event" && eventId) {
+    if (bookingType === "event" && eventId) {
       entity = await Event.findById(eventId);
       if (!entity) return res.status(404).json({ success: false, message: "Event not found" });
       providerId = entity.provider;
@@ -817,7 +817,7 @@ exports.getProviderDashboardStats = async (req, res, next) => {
 
     const Review = require("../models/Review");
     const avgRatingData = await Review.aggregate([
-      { $match: { provider: providerId } },
+      { $match: { reviewee: providerId } },
       { $group: { _id: null, averageRating: { $avg: "$rating" } } },
     ]);
 
@@ -852,7 +852,7 @@ exports.getProviderDashboardStats = async (req, res, next) => {
           event: event._id,
           status: { $in: ["accepted", "confirmed", "completed"] },
         });
-        const reviews = await Review.find({ relatedItem: event._id });
+        const reviews = await Review.find({ event: event._id });
         const avgRating =
           reviews.length > 0
             ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
@@ -877,7 +877,7 @@ exports.getProviderDashboardStats = async (req, res, next) => {
           resource: resource._id,
           status: { $in: ["accepted", "confirmed", "completed"] },
         });
-        const reviews = await Review.find({ relatedItem: resource._id });
+        const reviews = await Review.find({ resource: resource._id });
         const avgRating =
           reviews.length > 0
             ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
@@ -902,7 +902,7 @@ exports.getProviderDashboardStats = async (req, res, next) => {
           service: service._id,
           status: { $in: ["accepted", "confirmed", "completed"] },
         });
-        const reviews = await Review.find({ relatedItem: service._id });
+        const reviews = await Review.find({ service: service._id });
         const avgRating =
           reviews.length > 0
             ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
