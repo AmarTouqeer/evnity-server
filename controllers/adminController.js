@@ -5,6 +5,7 @@ const Service = require("../models/Service");
 const Booking = require("../models/Booking");
 const { sendApprovalEmail, sendRejectionEmail } = require("../utils/emailService");
 const { createNotification } = require("../utils/notificationHelper");
+const Review = require("../models/Review");
 
 // @desc    Get all pending users awaiting approval
 // @route   GET /api/admin/pending-users
@@ -764,6 +765,133 @@ exports.getDashboardStats = async (req, res, next) => {
     });
   } catch (error) {
     console.error("Get dashboard stats error:", error);
+    next(error);
+  }
+};
+
+// @desc    Get all reviews (admin)
+// @route   GET /api/admin/reviews
+// @access  Private/Admin
+exports.getAdminReviews = async (req, res, next) => {
+  try {
+    const { limit = 50 } = req.query;
+
+    const reviews = await Review.find()
+      .populate("reviewer", "name email")
+      .populate("reviewee", "name email isBlocked")
+      .populate("event",    "title")
+      .populate("service",  "title")
+      .populate("resource", "name")
+      .sort({ createdAt: -1 })
+      .limit(Number(limit));
+
+    const count = await Review.countDocuments();
+
+    res.status(200).json({
+      success: true,
+      data: { reviews, total: count },
+    });
+  } catch (error) {
+    console.error("Get admin reviews error:", error);
+    next(error);
+  }
+};
+
+// @desc    Delete a review (admin)
+// @route   DELETE /api/admin/reviews/:reviewId
+// @access  Private/Admin
+exports.adminDeleteReview = async (req, res, next) => {
+  try {
+    const review = await Review.findByIdAndDelete(req.params.reviewId);
+    if (!review) {
+      return res.status(404).json({ success: false, message: "Review not found" });
+    }
+    res.status(200).json({ success: true, message: "Review deleted" });
+  } catch (error) {
+    console.error("Admin delete review error:", error);
+    next(error);
+  }
+};
+
+// @desc    Delete an event (admin)
+// @route   DELETE /api/admin/events/:eventId
+// @access  Private/Admin
+exports.adminDeleteEvent = async (req, res, next) => {
+  try {
+    const event = await Event.findByIdAndDelete(req.params.eventId);
+    if (!event) {
+      return res.status(404).json({ success: false, message: "Event not found" });
+    }
+    res.status(200).json({ success: true, message: "Event deleted" });
+  } catch (error) {
+    console.error("Admin delete event error:", error);
+    next(error);
+  }
+};
+
+// @desc    Delete a service (admin)
+// @route   DELETE /api/admin/services/:serviceId
+// @access  Private/Admin
+exports.adminDeleteService = async (req, res, next) => {
+  try {
+    const service = await Service.findByIdAndDelete(req.params.serviceId);
+    if (!service) {
+      return res.status(404).json({ success: false, message: "Service not found" });
+    }
+    res.status(200).json({ success: true, message: "Service deleted" });
+  } catch (error) {
+    console.error("Admin delete service error:", error);
+    next(error);
+  }
+};
+
+// @desc    Delete a resource (admin)
+// @route   DELETE /api/admin/resources/:resourceId
+// @access  Private/Admin
+exports.adminDeleteResource = async (req, res, next) => {
+  try {
+    const resource = await Resource.findByIdAndDelete(req.params.resourceId);
+    if (!resource) {
+      return res.status(404).json({ success: false, message: "Resource not found" });
+    }
+    res.status(200).json({ success: true, message: "Resource deleted" });
+  } catch (error) {
+    console.error("Admin delete resource error:", error);
+    next(error);
+  }
+};
+
+// @desc    Block a user (admin)
+// @route   PUT /api/admin/block-user/:userId
+// @access  Private/Admin
+exports.blockUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    if (user.role === "admin") return res.status(403).json({ success: false, message: "Cannot block admin" });
+
+    user.isBlocked = true;
+    await user.save();
+
+    res.status(200).json({ success: true, message: `${user.name} has been blocked` });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Unblock a user (admin)
+// @route   PUT /api/admin/unblock-user/:userId
+// @access  Private/Admin
+exports.unblockUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+
+    user.isBlocked = false;
+    await user.save();
+
+    res.status(200).json({ success: true, message: `${user.name} has been unblocked` });
+  } catch (error) {
     next(error);
   }
 };

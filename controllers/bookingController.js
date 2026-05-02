@@ -112,13 +112,17 @@ exports.createBooking = async (req, res, next) => {
 
     let providerId, entity, totalAmount, deposit;
 
-    if (bookingType === "event" && eventId) {
+   if (bookingType === "event" && eventId) {
       entity = await Event.findById(eventId);
       if (!entity) return res.status(404).json({ success: false, message: "Event not found" });
       providerId = entity.provider;
-      totalAmount = entity.charges;
+      const basePrice = entity.charges || 0;
+      const capacity = entity.capacity || 1;
+      const guests = Number(quantity) || 1;
+      totalAmount = capacity > 0 ? Math.round((basePrice / capacity) * guests) : basePrice;
       deposit = 0;
-    } else if (bookingType === "resource" && resourceId) {
+    }
+    else if (bookingType === "resource" && resourceId) {
       entity = await Resource.findById(resourceId);
       if (!entity) return res.status(404).json({ success: false, message: "Resource not found" });
       providerId = entity.provider;

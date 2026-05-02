@@ -102,11 +102,9 @@ exports.createStripeCheckoutSession = async (req, res, next) => {
     const rawCurrency = paymentOptions?.stripe?.currency;
     const listingDisplayName = getListingDisplayName(booking, listing);
 
-    const unsupportedCurrencies = ["pkr", "inr"];
-    const currency =
-      rawCurrency && !unsupportedCurrencies.includes(rawCurrency.toLowerCase())
-        ? rawCurrency.toLowerCase()
-        : "usd";
+   const currency = (rawCurrency && rawCurrency.trim())
+  ? rawCurrency.trim().toLowerCase()
+  : "pkr";
 
     const amountInSmallestUnit = Math.round(totalAmount * 100);
 

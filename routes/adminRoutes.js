@@ -18,6 +18,13 @@ const {
   approveService,
   rejectService,
   getDashboardStats,
+  blockUser,
+  unblockUser,
+  getAdminReviews,
+  adminDeleteReview,
+  adminDeleteEvent,
+  adminDeleteService,
+  adminDeleteResource,
 } = require("../controllers/adminController");
 const { protect, authorize } = require("../middleware/auth");
 const { validate } = require("../middleware/validation");
@@ -88,5 +95,18 @@ router.post("/reject-resource/:resourceId", rejectValidation, validate, rejectRe
 router.get("/pending-services", getPendingServices);
 router.post("/approve-service/:serviceId", approveService);
 router.post("/reject-service/:serviceId", rejectValidation, validate, rejectService);
+
+
+router.get("/reviews", getAdminReviews);
+router.delete("/reviews/:reviewId", adminDeleteReview);
+
+// Delete listings
+router.delete("/events/:eventId", adminDeleteEvent);
+router.delete("/services/:serviceId", adminDeleteService);
+router.delete("/resources/:resourceId", adminDeleteResource);
+
+// Block / Unblock (separate endpoints matching the frontend)
+router.put("/block-user/:userId", blockUser);
+router.put("/unblock-user/:userId", unblockUser);
 
 module.exports = router;
