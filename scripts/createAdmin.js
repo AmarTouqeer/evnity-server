@@ -23,9 +23,9 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("✅ MongoDB Connected");
+    console.log("MongoDB Connected");
   } catch (error) {
-    console.error("❌ MongoDB Connection Error:", error.message);
+    console.error(" MongoDB Connection Error:", error.message);
     process.exit(1);
   }
 };
@@ -36,7 +36,7 @@ const createAdmin = async () => {
     await connectDB();
 
     console.log("\n" + "=".repeat(50));
-    console.log("🔐 Create Admin Account");
+    console.log(" Create Admin Account");
     console.log("=".repeat(50) + "\n");
 
     // Get admin details
@@ -57,7 +57,7 @@ const createAdmin = async () => {
     // Check if admin already exists
     const existingAdmin = await User.findOne({ email });
     if (existingAdmin) {
-      console.log("\n❌ Admin with this email already exists!");
+      console.log("\n Admin with this email already exists!");
 
       const update = await question(
         "\nDo you want to update the password? (yes/no): "
@@ -66,7 +66,7 @@ const createAdmin = async () => {
         const newPassword = await question("Enter new password: ");
         existingAdmin.password = newPassword;
         await existingAdmin.save();
-        console.log("\n✅ Admin password updated successfully!");
+        console.log("\n Admin password updated successfully!");
       }
 
       rl.close();
@@ -87,22 +87,22 @@ const createAdmin = async () => {
     });
 
     console.log("\n" + "=".repeat(50));
-    console.log("✅ Admin Account Created Successfully!");
+    console.log(" Admin Account Created Successfully!");
     console.log("=".repeat(50));
-    console.log(`📧 Email: ${admin.email}`);
-    console.log(`🔑 Password: ${password}`);
-    console.log(`👤 Name: ${admin.name}`);
-    console.log(`📱 Phone: ${admin.phone}`);
-    console.log(`🏙️ City: ${admin.city}`);
+    console.log(` Email: ${admin.email}`);
+    console.log(`Password: ${password}`);
+    console.log(` Name: ${admin.name}`);
+    console.log(` Phone: ${admin.phone}`);
+    console.log(` City: ${admin.city}`);
     console.log("=".repeat(50));
     console.log(
-      "\n⚠️  IMPORTANT: Please change the password after first login!\n"
+      "\n  IMPORTANT: Please change the password after first login!\n"
     );
 
     rl.close();
     process.exit(0);
   } catch (error) {
-    console.error("\n❌ Error creating admin:", error.message);
+    console.error("\n Error creating admin:", error.message);
     rl.close();
     process.exit(1);
   }
