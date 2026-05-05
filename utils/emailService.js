@@ -35,7 +35,7 @@ exports.sendOTPEmail = async (email, otp, name) => {
         <body>
           <div class="container">
             <div class="header">
-              <h1>🎉 Welcome to Evnity!</h1>
+              <h1> Welcome to Evnity!</h1>
             </div>
             <div class="content">
               <h2>Hello ${name}!</h2>
