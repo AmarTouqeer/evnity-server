@@ -100,7 +100,7 @@ exports.sendPasswordResetEmail = async (email, resetToken, name) => {
         <body>
           <div class="container">
             <div class="header">
-              <h1>🔒 Password Reset Request</h1>
+              <h1> Password Reset Request</h1>
             </div>
             <div class="content">
               <h2>Hello ${name}!</h2>
@@ -160,7 +160,7 @@ exports.sendWelcomeEmail = async (email, name, role) => {
         <body>
           <div class="container">
             <div class="header">
-              <h1>🎉 Welcome to Evnity!</h1>
+              <h1>Welcome to Evnity!</h1>
             </div>
             <div class="content">
               <h2>Hello ${name}!</h2>
@@ -268,7 +268,7 @@ exports.sendRejectionEmail = async (email, name, type, reason) => {
         <body>
           <div class="container">
             <div class="header">
-              <h1>⚠️ Submission Update</h1>
+              <h1> Submission Update</h1>
             </div>
             <div class="content">
               <h2>Hello ${name}!</h2>
@@ -327,7 +327,7 @@ exports.sendBookingConfirmationEmail = async (
         <body>
           <div class="container">
             <div class="header">
-              <h1>📅 Booking Confirmed!</h1>
+              <h1>Booking Confirmed!</h1>
             </div>
             <div class="content">
               <h2>Hello ${name}!</h2>
