@@ -63,10 +63,10 @@ exports.sendOTPEmail = async (email, otp, name) => {
 
     const transporter = getTransporter();
     await transporter.sendMail(mailOptions);
-    console.log(`✅ OTP email sent to ${email}`);
+    console.log(` OTP email sent to ${email}`);
     return true;
   } catch (error) {
-    console.error("❌ Error sending OTP email:", error);
+    console.error("Error sending OTP email:", error);
     return false;
   }
 };
@@ -130,10 +130,10 @@ exports.sendPasswordResetEmail = async (email, resetToken, name) => {
 
     const transporter = getTransporter();
     await transporter.sendMail(mailOptions);
-    console.log(`✅ Password reset email sent to ${email}`);
+    console.log(`Password reset email sent to ${email}`);
     return true;
   } catch (error) {
-    console.error("❌ Error sending password reset email:", error);
+    console.error(" Error sending password reset email:", error);
     return false;
   }
 };
@@ -187,10 +187,10 @@ exports.sendWelcomeEmail = async (email, name, role) => {
 
     const transporter = getTransporter();
     await transporter.sendMail(mailOptions);
-    console.log(`✅ Welcome email sent to ${email}`);
+    console.log(` Welcome email sent to ${email}`);
     return true;
   } catch (error) {
-    console.error("❌ Error sending welcome email:", error);
+    console.error("Error sending welcome email:", error);
     return false;
   }
 };
@@ -201,7 +201,7 @@ exports.sendApprovalEmail = async (email, name, type) => {
     const mailOptions = {
       from: `"Evnity" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
       to: email,
-      subject: `Your ${type} has been approved! ✅`,
+      subject: `Your ${type} has been approved! `,
       html: `
         <!DOCTYPE html>
         <html>
@@ -217,7 +217,7 @@ exports.sendApprovalEmail = async (email, name, type) => {
         <body>
           <div class="container">
             <div class="header">
-              <h1>✅ Approval Confirmed!</h1>
+              <h1>Approval Confirmed!</h1>
             </div>
             <div class="content">
               <h2>Hello ${name}!</h2>
@@ -237,10 +237,10 @@ exports.sendApprovalEmail = async (email, name, type) => {
 
     const transporter = getTransporter();
     await transporter.sendMail(mailOptions);
-    console.log(`✅ Approval email sent to ${email}`);
+    console.log(` Approval email sent to ${email}`);
     return true;
   } catch (error) {
-    console.error("❌ Error sending approval email:", error);
+    console.error(" Error sending approval email:", error);
     return false;
   }
 };
@@ -292,10 +292,10 @@ exports.sendRejectionEmail = async (email, name, type, reason) => {
 
     const transporter = getTransporter();
     await transporter.sendMail(mailOptions);
-    console.log(`✅ Rejection email sent to ${email}`);
+    console.log(`Rejection email sent to ${email}`);
     return true;
   } catch (error) {
-    console.error("❌ Error sending rejection email:", error);
+    console.error("Error sending rejection email:", error);
     return false;
   }
 };
@@ -356,10 +356,10 @@ exports.sendBookingConfirmationEmail = async (
 
     const transporter = getTransporter();
     await transporter.sendMail(mailOptions);
-    console.log(`✅ Booking confirmation email sent to ${email}`);
+    console.log(` Booking confirmation email sent to ${email}`);
     return true;
   } catch (error) {
-    console.error("❌ Error sending booking confirmation email:", error);
+    console.error(" Error sending booking confirmation email:", error);
     return false;
   }
 };
@@ -419,10 +419,10 @@ exports.sendBookingStatusEmail = async (email, name, status, bookingDetails) => 
     };
 
     await transporter.sendMail(mailOptions);
-    console.log(`✅ Booking status email sent to ${email}`);
+    console.log(` Booking status email sent to ${email}`);
     return true;
   } catch (error) {
-    console.error("❌ Error sending booking status email:", error);
+    console.error(" Error sending booking status email:", error);
     return false;
   }
 };
